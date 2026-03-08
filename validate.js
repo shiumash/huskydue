@@ -1,0 +1,26 @@
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const consoleErrors = [];
+  page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
+  page.on('pageerror', err => consoleErrors.push(err.message));
+  await page.goto('http://localhost:3000', { waitUntil: 'networkidle' });
+  await page.screenshot({ path: '/tmp/ss_hero.png' });
+  await page.evaluate(() => window.scrollTo(0, 850));
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: '/tmp/ss_problem.png' });
+  await page.evaluate(() => window.scrollTo(0, 1700));
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: '/tmp/ss_features.png' });
+  await page.evaluate(() => window.scrollTo(0, 2600));
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: '/tmp/ss_howitworks.png' });
+  await page.evaluate(() => window.scrollTo(0, 999999));
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: '/tmp/ss_cta.png' });
+  await page.screenshot({ path: '/tmp/ss_full.png', fullPage: true });
+  console.log('ERRORS:', JSON.stringify(consoleErrors));
+  await browser.close();
+})();

@@ -74,3 +74,6 @@ Supabase Auth handles user sessions. HuskyCT credentials are stored encrypted in
 
 ## Package manager
 Always use **pnpm** for Node.js. Never use npm.
+
+Use `pnpm exec playwright` not `node -e require('playwright')`
+Playwright is installed at the monorepo root, not in /src/web

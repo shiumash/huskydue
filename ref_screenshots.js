@@ -1,0 +1,23 @@
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('https://huskydue-sync-flow.base44.app', { waitUntil: 'networkidle' });
+  await page.screenshot({ path: '/tmp/ref_hero.png' });
+  await page.evaluate(() => window.scrollTo(0, 900));
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: '/tmp/ref_problem.png' });
+  await page.evaluate(() => window.scrollTo(0, 1800));
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: '/tmp/ref_features.png' });
+  await page.evaluate(() => window.scrollTo(0, 2700));
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: '/tmp/ref_howitworks.png' });
+  await page.evaluate(() => window.scrollTo(0, 999999));
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: '/tmp/ref_cta.png' });
+  await page.screenshot({ path: '/tmp/ref_full.png', fullPage: true });
+  await browser.close();
+  console.log('Done');
+})();
