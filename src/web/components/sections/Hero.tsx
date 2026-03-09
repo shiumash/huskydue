@@ -25,6 +25,8 @@ const assignments = [
 
 function DashboardMockup() {
   const innerRef = useRef<HTMLDivElement>(null);
+  const BASE_ROT_X = 3;
+  const BASE_ROT_Y = -8;
 
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = innerRef.current;
@@ -32,8 +34,8 @@ function DashboardMockup() {
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const rotX = ((y - rect.height / 2) / rect.height) * -12;
-    const rotY = ((x - rect.width / 2) / rect.width) * 12;
+    const rotX = BASE_ROT_X + ((y - rect.height / 2) / rect.height) * -12;
+    const rotY = BASE_ROT_Y + ((x - rect.width / 2) / rect.width) * 12;
     el.style.transition = "transform 0.08s ease";
     el.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02,1.02,1.02)`;
   };
@@ -42,7 +44,7 @@ function DashboardMockup() {
     const el = innerRef.current;
     if (!el) return;
     el.style.transition = "transform 0.55s ease";
-    el.style.transform = "rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
+    el.style.transform = `rotateX(${BASE_ROT_X}deg) rotateY(${BASE_ROT_Y}deg) scale3d(1,1,1)`;
   };
 
   return (
@@ -51,7 +53,11 @@ function DashboardMockup() {
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
-      <div ref={innerRef} className="perspective-card-inner">
+      <div
+        ref={innerRef}
+        className="perspective-card-inner"
+        style={{ transform: `rotateX(${BASE_ROT_X}deg) rotateY(${BASE_ROT_Y}deg)` }}
+      >
         <div className="relative bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-visible p-1">
 
           {/* Browser chrome */}
